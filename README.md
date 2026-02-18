@@ -124,6 +124,6 @@ Yeni bir işlem eklemek için:
 
 ## İletişim
 
-**Adil Aslan** — insta:adlefee — aslanadil8@gmail.com
+**Adil Efe** — insta:adlefee — adilefe257@gmail.com
 
 Proje: [https://github.com/jusiann/my-wallet](https://github.com/jusiann/my-wallet)
