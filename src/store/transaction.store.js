@@ -81,6 +81,40 @@ export const useTransactionStore = create((set, get) => ({
         }
     },
 
+    // UPDATE TRANSACTION
+    updateTransaction: async (id, transactionData) => {
+        try {
+            const date = transactionData.date ? new Date(transactionData.date) : new Date();
+            const currentTransactions = get().transactions;
+            const updatedTransactions = currentTransactions.map(t => {
+                if (t.id === id) {
+                    return {
+                        ...t,
+                        ...transactionData,
+                        date: date,
+                        day: date.getDate(),
+                        month: date.getMonth() + 1,
+                        year: date.getFullYear()
+                    };
+                }
+                return t;
+            });
+
+            set({
+                transactions: updatedTransactions
+            });
+
+            await StorageUtils.saveTransactions(updatedTransactions);
+            return { success: true };
+        } catch (error) {
+            console.error("updateTransaction error:", error);
+            return {
+                success: false,
+                message: error.message || "Failed to update transaction"
+            };
+        }
+    },
+
     // GET TOTAL INCOME
     getTotalIncome: () => {
         const transactions = get().transactions;

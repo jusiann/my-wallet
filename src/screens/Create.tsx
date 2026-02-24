@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import COLORS, { currency } from '../constants/colors';
@@ -12,19 +12,36 @@ const PAYMENT_METHODS = [
     { id: 'bank_transfer', label: 'Bank', icon: 'business-outline' },
 ];
 
-export function Create({ navigation }) {
+export function Create({ navigation, route }) {
+    // Check if editing existing transaction
+    const editTransaction = route?.params?.transaction;
+    const isEditing = !!editTransaction;
+
     const [transactionType, setTransactionType] = useState('expense');
     const [amount, setAmount] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState('other');
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('cash');
     const [note, setNote] = useState('');
 
-    const { addTransaction } = useTransactionStore();
+    const { addTransaction, updateTransaction } = useTransactionStore();
+
+    // Pre-fill form when editing
+    useEffect(() => {
+        if (editTransaction) {
+            setTransactionType(editTransaction.type || 'expense');
+            setAmount(editTransaction.amount?.toString() || '');
+            setSelectedCategory(editTransaction.category || 'other');
+            setSelectedPaymentMethod(editTransaction.paymentMethod || 'cash');
+            setNote(editTransaction.note || '');
+        }
+    }, [editTransaction]);
 
     // HANDLE TYPE CHANGE
     const handleTypeChange = (type) => {
         setTransactionType(type);
-        setSelectedCategory(null);
+        if (!isEditing) {
+            setSelectedCategory('other');
+        }
     };
 
     // HANDLE SAVE TRANSACTION
@@ -32,17 +49,23 @@ export function Create({ navigation }) {
         if (!selectedCategory || !amount || parseFloat(amount) <= 0)
             return;
 
-        await addTransaction({
+        const transactionData = {
             type: transactionType,
             amount: parseFloat(amount.replace(/,/g, '')),
             category: selectedCategory,
             title: selectedCategory,
             paymentMethod: selectedPaymentMethod,
-            date: new Date(),
+            date: isEditing ? editTransaction.date : new Date(),
             note,
-        });
+        };
 
-        navigation.goBack();
+        if (isEditing) {
+            await updateTransaction(editTransaction.id, transactionData);
+        } else {
+            await addTransaction(transactionData);
+        }
+
+        navigation.navigate('HomeTab');
     };
 
     const isValid = selectedCategory && amount && parseFloat(amount) > 0;
@@ -50,18 +73,20 @@ export function Create({ navigation }) {
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
         >
             {/* HEADER */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeButton}>
-                    <Ionicons name="close" size={24} color={COLORS.textPrimary} />
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>Add Transaction</Text>
-                <View style={styles.placeholder} />
+                <Text style={styles.headerTitle}>{isEditing ? 'Edit Transaction' : 'Add Transaction'}</Text>
             </View>
 
-            <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                style={styles.content}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={{ paddingBottom: 100 }}
+            >
                 {/* TYPE TOGGLE */}
                 <View style={styles.toggleContainer}>
                     <TouchableOpacity
@@ -148,19 +173,19 @@ export function Create({ navigation }) {
                         multiline
                     />
                 </View>
-            </ScrollView>
 
-            {/* SAVE BUTTON */}
-            <View style={styles.footer}>
-                <TouchableOpacity
-                    style={[styles.saveButton, !isValid && styles.saveButtonDisabled]}
-                    onPress={handleSave}
-                    activeOpacity={0.8}
-                    disabled={!isValid}
-                >
-                    <Text style={styles.saveButtonText}>Save Transaction</Text>
-                </TouchableOpacity>
-            </View>
+                {/* SAVE BUTTON */}
+                <View style={styles.footer}>
+                    <TouchableOpacity
+                        style={[styles.saveButton, !isValid && styles.saveButtonDisabled]}
+                        onPress={handleSave}
+                        activeOpacity={0.8}
+                        disabled={!isValid}
+                    >
+                        <Text style={styles.saveButtonText}>Save Transaction</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 }
@@ -183,8 +208,8 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         color: COLORS.textPrimary,
-        fontSize: 17,
-        fontWeight: '600',
+        fontSize: 28,
+        fontWeight: '700',
     },
     placeholder: {
         width: 40,
@@ -292,8 +317,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',
     },
     footer: {
-        padding: 20,
-        paddingBottom: 40,
+        paddingVertical: 20,
     },
     saveButton: {
         backgroundColor: COLORS.primary,

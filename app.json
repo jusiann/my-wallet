@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "my-wallet",
+    "name": "MyWallet",
     "slug": "my-wallet",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -35,7 +35,7 @@
     "plugins": [],
     "extra": {
       "eas": {
-        "projectId": "your-project-id"
+        "projectId": "89b9fcbd-6428-4eeb-81d2-5775f01f35cd"
       }
     }
   }

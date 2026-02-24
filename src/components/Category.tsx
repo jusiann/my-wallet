@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import COLORS from '../constants/colors';
 
 // EXPENSE CATEGORIES
-const EXPENSE_CATEGORIES = [
+export const EXPENSE_CATEGORIES = [
     { id: 'food', label: 'Food', icon: 'restaurant', color: COLORS.categoryFood },
     { id: 'market', label: 'Market', icon: 'cart', color: COLORS.categoryMarket },
     { id: 'shop', label: 'Shopping', icon: 'bag-handle', color: COLORS.categoryShop },
@@ -13,9 +13,9 @@ const EXPENSE_CATEGORIES = [
 ];
 
 // INCOME CATEGORIES
-const INCOME_CATEGORIES = [
+export const INCOME_CATEGORIES = [
     { id: 'salary', label: 'Salary', icon: 'cash', color: COLORS.income },
-    { id: 'freelance', label: 'Freelance', icon: 'briefcase', color: COLORS.categoryShop },
+    { id: 'freelance', label: 'Cash', icon: 'cash', color: COLORS.categoryShop },
     { id: 'other', label: 'Other', icon: 'ellipsis-horizontal', color: COLORS.categoryOther },
 ];
 

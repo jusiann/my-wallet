@@ -34,9 +34,15 @@ export const CATEGORIES = {
     },
     freelance: {
         id: 'freelance',
-        label: 'Freelance',
-        icon: 'laptop-outline',
+        label: 'Cash',
+        icon: 'cash-outline',
         color: COLORS.income
+    },
+    other: {
+        id: 'other',
+        label: 'Other',
+        icon: 'ellipsis-horizontal-outline',
+        color: COLORS.categoryOther
     }
 };
 

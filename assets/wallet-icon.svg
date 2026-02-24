@@ -1,0 +1,19 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background -->
+    <rect width="1024" height="1024" rx="200" fill="#7C3AED"/>
+    
+    <!-- Wallet body - main rectangle -->
+    <rect x="212" y="312" width="600" height="400" rx="48" fill="#5B21B6"/>
+    
+    <!-- Top accent bar -->
+    <path d="M212 360C212 333.49 233.49 312 260 312H764C790.51 312 812 333.49 812 360V392H212V360Z" fill="#4C1D95"/>
+    
+    <!-- Card slot - left corners rounded, right corners straight (attached to border) -->
+    <path d="M712 452H812V572H712C698.745 572 688 561.255 688 548V476C688 462.745 698.745 452 712 452Z" fill="#8B5CF6"/>
+    
+    <!-- Clasp/button circle - centered in card slot -->
+    <circle cx="750" cy="512" r="24" fill="#F3E8FF"/>
+    
+    <!-- Bottom accent bar -->
+    <path d="M212 652H812V664C812 690.51 790.51 712 764 712H260C233.49 712 212 690.51 212 664V652Z" fill="#4C1D95"/>
+</svg>
