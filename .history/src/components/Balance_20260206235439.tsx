@@ -83,8 +83,10 @@ export function BalanceCard({
         })}`;
     };
 
+    // Determine balance color (removed comment)
     const balanceColor = balance < 0 ? COLORS.expense : COLORS.textPrimary;
 
+    // Subtitle text (removed comment)
     const getSubtitle = () => {
         if (income === 0 && expense === 0) return 'No transactions yet';
         if (income === 0) return 'No income recorded';
@@ -124,6 +126,7 @@ export function BalanceCard({
                         />
                     ))}
 
+                    {/* Over-budget indicator */}
                     {income > 0 && expense > income && (
                         <Circle
                             cx={CHART_SIZE / 2}

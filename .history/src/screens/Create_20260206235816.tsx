@@ -86,6 +86,7 @@ export function Create({ navigation, route }: any) {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
         >
+            {/* HEADER */}
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>{isEditing ? 'Edit Transaction' : 'Add Transaction'}</Text>
                 <TouchableOpacity
@@ -103,6 +104,7 @@ export function Create({ navigation, route }: any) {
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={{ paddingBottom: 100 }}
             >
+                {/* TYPE TOGGLE */}
                 <View style={styles.toggleContainer}>
                     <TouchableOpacity
                         style={[styles.toggleButton, transactionType === 'expense' && styles.toggleButtonActive]}
@@ -122,6 +124,7 @@ export function Create({ navigation, route }: any) {
                     </TouchableOpacity>
                 </View>
 
+                {/* AMOUNT INPUT */}
                 <View style={styles.amountContainer}>
                     <Text style={styles.amountLabel}>Amount</Text>
                     <View style={styles.amountInputContainer}>
@@ -137,12 +140,14 @@ export function Create({ navigation, route }: any) {
                     </View>
                 </View>
 
+                {/* CATEGORY SELECTOR */}
                 <CategorySelector
                     selectedCategory={selectedCategory}
                     onSelectCategory={setSelectedCategory}
                     transactionType={transactionType}
                 />
 
+                {/* PAYMENT METHOD */}
                 <View style={styles.paymentSection}>
                     <Text style={styles.sectionLabel}>PAYMENT METHOD</Text>
                     <View style={styles.paymentMethods}>
@@ -175,6 +180,7 @@ export function Create({ navigation, route }: any) {
 
                 {/* NOTE INPUT */}
                 <View style={styles.noteContainer}>
+                    <Text style={styles.sectionLabel}>NOTE (OPTIONAL)</Text>
                     <TextInput
                         style={styles.noteInput}
                         placeholder="Add a short description..."
