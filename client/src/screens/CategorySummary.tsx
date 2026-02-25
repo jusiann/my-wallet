@@ -75,17 +75,20 @@ export function CategorySummary({ navigation, route }) {
             </View>
 
             {/* MONTH LABEL */}
-                {MONTHS[month - 1]} {year}
-            </Text>
+            <View style={styles.totalContainer}>
+                <Text style={styles.monthLabel}>
+                    {MONTHS[month - 1]} {year}
+                </Text>
 
-            {/* TOTAL */}
+                {/* TOTAL */}
                 <Text style={styles.totalLabel}>Total {type === 'expense' ? 'Expenses' : 'Income'}</Text>
                 <Text style={[styles.totalAmount, { color: type === 'expense' ? COLORS.expense : COLORS.income }]}>
-                    {formatCurrency(categoryData.grandTotal)}
+                    {formatCurrency(categoryData.grandTotal || 0)}
                 </Text>
             </View>
 
-            {/* CATEGORY LIST */}
+            <ScrollView style={styles.categoryList}>
+                {/* CATEGORY LIST */}
                 {categoryData.categories.length === 0 ? (
                     <View style={styles.emptyState}>
                         <Text style={styles.emptyText}>No transactions found</Text>

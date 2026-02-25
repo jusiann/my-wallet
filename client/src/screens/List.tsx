@@ -175,6 +175,7 @@ export function List({ navigation }) {
             </View>
 
             {/* SEARCH BAR */}
+            <View style={styles.searchContainer}>
                 <Ionicons name="search" size={18} color={COLORS.textMuted} style={styles.searchIcon} />
                 <TextInput
                     style={styles.searchInput}
@@ -191,7 +192,8 @@ export function List({ navigation }) {
             </View>
 
             {/* TRANSACTION LIST */}
-            {   <EmptyState />
+            {sections.length === 0 ? (
+                <EmptyState />
             ) : (
                 <SectionList
                     sections={sections}
